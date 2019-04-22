@@ -173,6 +173,12 @@ That being said, all this nasty, brittle rehydration logic would look much
 nicer as a consequence; the join to `photo_thumbnails` would be a mucher cleaner
 operation as well.
 
+* The `photo_thumbnails__photo_uuid__width__height_uniq` index was added when
+I realized how heavily saturated the database would be as a consequence of
+hitting this endpoint repeatedly. Instead, realizing there would be commonality
+between the image name, width, and height, I added the constraint so that the
+insert would simply stop (`ON CONFLICT...DO NOTHING`).
+
 * The tests are rough around the edges, to be sure. To be honest, I have not
 worked with Python's `unittest` facilities before, and I thought it would be fun
 to give it a try. That being said, there is something off about my project still,
